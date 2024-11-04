@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  manager:
+    build:
+      context: .
+      dockerfile: manager.Dockerfile
+    container_name: snmp-manager
+    networks:
+      snmpnet:
+        ipv4_address: 10.0.123.2
+    ports:
+      - "162:162/udp"
+    volumes:
+      - ./gp2:/home/gp2
+
+  agent:
+    build:
+      context: .
+      dockerfile: agent.Dockerfile
+    container_name: snmp-agent
+    networks:
+      snmpnet:
+        ipv4_address: 10.0.123.3
+    volumes:
+      - ./gp2:/home/gp2
+
+networks:
+  snmpnet:
+    ipam:
+      config:
+        - subnet: 10.0.123.0/24
