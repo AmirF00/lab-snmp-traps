@@ -1,15 +1,20 @@
 image:
   file: .gitpod.Dockerfile
 
+tasks:
+  - name: Setup Environment
+    init: |
+      sudo apt-get update
+      sudo apt-get install -y vagrant
+      vagrant plugin install vagrant-libvirt
+
 ports:
   - port: 162
-    protocol: udp
+    protocol: "UDP"
+    onOpen: ignore
   - port: 22
     onOpen: ignore
 
-tasks:
-  - init: |
-      sudo apt-get update
-      sudo apt-get install -y vagrant virtualbox
-      vagrant plugin install vagrant-libvirt
-      vagrant up
+vscode:
+  extensions:
+    - hashicorp.terraform
